@@ -91,4 +91,62 @@ def applicant_resume_page():
         else:
             st.warning("Please fill in all the fields.")
 
+def write_user(username, password, user_type):
+
+    if user_type == 'employer':
+        user_file = USER_FILE_EMPLOYER
+    elif user_type == 'applicant':
+        user_file = USER_FILE_APPLICANT
+    else:
+        raise ValueError("Invalid user type")
+
+    with open(user_file, 'a') as file:
+        file.write(f"{username}:{hashlib.sha256(password.encode()).hexdigest()}\n")
+
+def check_user_credentials(username, password, user_type):
+    if user_type == 'employer':
+        user_file = USER_FILE_EMPLOYER
+    elif user_type == 'applicant':
+        user_file = USER_FILE_APPLICANT
+    else:
+        raise ValueError("Invalid user type")
+
+    with open(user_file, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            stored_username, stored_password = line.strip().split(':')
+            if username == stored_username and hashlib.sha256(password.encode()).hexdigest() == stored_password:
+                return True
+    return False
+
+def login_page():
+    st.title("Login Page")
+    user_type = st.radio("Select User Type:", ('Employer', 'Applicant'))
+
+    username = st.text_input("Username:")
+    password = st.text_input("Password:", type="password")
+
+    if st.button("Login"):
+        if check_user_credentials(username, password, user_type.lower()):
+            st.success("Login Successful!")
+            st.session_state.user_logged_in = True
+            st.session_state.user_type = user_type.lower()
+            st.session_state.username = username  
+            st.experimental_rerun()
+        else:
+            st.error("Invalid credentials. Please try again.")
+
+    st.subheader(f"Don't have an account? Sign up below.")
+
+    new_username = st.text_input("New Username:")
+    new_password = st.text_input("New Password:", type="password")
+
+    if st.button("Sign Up"):
+        if new_username and new_password:
+            write_user(new_username, new_password, user_type.lower())
+            st.success("Account created successfully! You can now log in.")
+        else:
+            st.warning("Please provide a username and password for sign up.")
+
+
 
