@@ -45,7 +45,11 @@ Data Persistence: Resumes and user credentials are stored in text files for simp
 <br>
 <br>
 <b>Contributors</b>
-Adithya Darshan
-Abhilash Vinod
-Abhijit Amar
-Aashish M Kumar
+<br>
+<i>Adithya Darshan</i>
+<br>
+<i>Abhilash Vinod</i>
+<br>
+<i>Abhijit Amar</i>
+<br>
+<i>Aashish M Kumar</i>
