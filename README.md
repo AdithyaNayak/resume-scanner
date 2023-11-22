@@ -19,6 +19,7 @@ Display Resumes: Filtered resumes are displayed, providing essential details for
 Resume Submission: Applicants can submit their resumes by entering details such as name, education, skills, experience, and domain.
 Submission Confirmation: Upon successful submission, applicants receive a confirmation message.
 <br>
+<br>
 <b>File Structure</b>:
 <br>
 filename.py: Main Python script containing the application logic.
