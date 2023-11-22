@@ -1,5 +1,10 @@
 import os
 import streamlit as st
+import hashlib
+
+USER_FILE_EMPLOYER = "employers.txt"
+USER_FILE_APPLICANT = "applicants.txt"
+
 
 class Resume:
     def __init__(self, name, education, skills, domain, experience):
@@ -8,6 +13,14 @@ class Resume:
         self.skills = [skill.strip() for skill in skills.split(',')]
         self.domain = domain
         self.experience = int(experience)
+        
+class ApplicantResume:
+    def __init__(self, name, education, skills, experience, domain):
+        self.name = name
+        self.education = education
+        self.skills = [skill.strip() for skill in skills.split(',')]
+        self.experience = int(experience)
+        self.domain = domain
 
 def read_resumes(file_path):
     resumes = []
@@ -36,38 +49,3 @@ def filter_resumes(resumes, filters):
         else:
             filtered_resumes = [resume for resume in filtered_resumes if getattr(resume, key) == value]
     return filtered_resumes
-
-def main():
-    st.title("Resume Filter App")
-
-    filters = {}
-    filter_labels = ['Name', 'Education', 'Skills', 'Domain', 'Experience']
-    for label in filter_labels:
-        filters[label.lower()] = st.text_input(label, "")
-
-    filter_button = st.button("Filter Resumes")
-    if filter_button:
-        resumes = read_and_filter_resumes(filters)
-        display_results(resumes)
-
-def read_and_filter_resumes(filters):
-    resume_files = get_resume_files()
-
-    if not resume_files:
-        return []
-
-    resumes = []
-    for file in resume_files:
-        resumes.extend(read_resumes(file))
-
-    filtered_resumes = filter_resumes(resumes, filters)
-    return filtered_resumes
-
-def display_results(resumes):
-    st.subheader("Filtered Resumes:")
-    for resume in resumes:
-        st.write(f"\nName: {resume.name}\nEducation: {resume.education}\nSkills: {', '.join(resume.skills)}\n"
-                 f"Domain: {resume.domain}\nExperience: {resume.experience} years\n\n")
-
-if __name__ == "__main__":
-    main()
