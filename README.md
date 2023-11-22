@@ -56,7 +56,7 @@ Access the Application: Open your web browser and navigate to the provided URL.
 <br>
 <b>Contributors</b>
 <br>
-<i>Adithya Darshan</i>
+<i>Adithya Darshan Nayak</i>
 <br>
 <i>Abhilash Vinod</i>
 <br>
