@@ -1,0 +1,5 @@
+Name: Raj
+Education: Bachelors in Technology
+Skills: Python,C,SQL
+Domain: Computer Science
+Experience: 2
