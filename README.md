@@ -1,4 +1,4 @@
-# resume-scanner
+# RESUME-SCANNER
 <br>
 <b>Overview</b>
 <br>
