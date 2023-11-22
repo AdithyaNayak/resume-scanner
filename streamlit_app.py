@@ -148,5 +148,56 @@ def login_page():
         else:
             st.warning("Please provide a username and password for sign up.")
 
+def main():
+    if 'user_logged_in' not in st.session_state:
+        st.session_state.user_logged_in = False
+
+    if not st.session_state.user_logged_in:
+        login_page()  # Show login page by default
+        return
+
+    if st.session_state.user_type == 'employer':
+        st.title("Resume Filter")
+        
+        # Display the resume filter here
+        resume_files = get_resume_files()
+
+        if not resume_files:
+            st.warning("No resume files found in the current directory.")
+            return
+
+        resumes = []
+        for file in resume_files:
+            resumes.extend(read_resumes(file))
+
+        st.sidebar.title("Filters")
+
+        filters = {}
+        filter_types = ['name', 'education', 'domain', 'skills', 'experience']
+        for filter_type in filter_types:
+            if filter_type == 'experience':
+                filter_value = st.sidebar.number_input(f"Minimum {filter_type.capitalize()} required:", min_value=0)
+            else:
+                filter_value = st.sidebar.text_input(f"{filter_type.capitalize()} to filter by:")
+            if filter_value:
+                filters[filter_type] = filter_value
+
+        filtered_resumes = filter_resumes(resumes, filters)
+
+        st.subheader("Filtered Resumes:")
+        for resume in filtered_resumes:
+            st.write(f"**Name:** {resume.name}\n"
+                     f"**Education:** {resume.education}\n"
+                     f"**Skills:** {', '.join(resume.skills)}\n"
+                     f"**Domain:** {resume.domain}\n"
+                     f"**Experience:** {resume.experience} years\n"
+                     f"---")
+
+    elif st.session_state.user_type == 'applicant':
+        applicant_resume_page()
+
+if __name__ == "__main__":
+    main()
+
 
 
