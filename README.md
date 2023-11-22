@@ -1,8 +1,9 @@
 # resume-scanner
 <br>
-Overview
+<b>Overview</b>
 <br>
-The Resume Management System is a Python application built using Streamlit for creating and managing resumes for both employers and applicants. Employers can filter through applicant resumes based on various criteria, while applicants can submit their resumes for potential job opportunities.
+The Resume Scanner is a Python application built using Streamlit for creating and managing resumes for both employers and applicants. Employers can filter through applicant resumes based on various criteria, while applicants can submit their resumes for potential job opportunities.
+<br>
 <br>
 <b>Features</b>
 <br>
@@ -21,19 +22,27 @@ Submission Confirmation: Upon successful submission, applicants receive a confir
 <b>File Structure</b>:
 <br>
 filename.py: Main Python script containing the application logic.
+<br>
 employers.txt: File storing employer usernames and hashed passwords.
+<br>
 applicants.txt: File storing applicant usernames and hashed passwords.
+<br>
 resume_*.txt: Files containing individual applicant resumes.
+<br>
 <br>
 <b>Dependencies</b>
 <br>
 Streamlit: Used for building the web-based user interface.
+<br>
 Hashlib: Utilized for hashing and securing user password
+<br>
 <br>
 <b>Notes</b>
 <br>
 Security: Passwords are securely stored in hashed form using SHA-256.
+<br>
 Data Persistence: Resumes and user credentials are stored in text files for simplicity.
+<br>
 <br>
 <b>Contributors</b>
 Adithya Darshan
