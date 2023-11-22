@@ -45,6 +45,15 @@ Security: Passwords are securely stored in hashed form using SHA-256.
 Data Persistence: Resumes and user credentials are stored in text files for simplicity.
 <br>
 <br>
+<b>How to Run the Application</b>
+<br>
+Install Dependencies: Ensure that you have Python and the required libraries installed.
+<br>
+Run the Application
+<br>
+Access the Application: Open your web browser and navigate to the provided URL.
+<br>
+<br>
 <b>Contributors</b>
 <br>
 <i>Adithya Darshan</i>
