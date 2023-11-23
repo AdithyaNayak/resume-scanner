@@ -22,7 +22,7 @@ Submission Confirmation: Upon successful submission, applicants receive a confir
 <br>
 <b>File Structure</b>:
 <br>
-filename.py: Main Python script containing the application logic.
+streamlit_app.py: Main Python script containing the application logic.
 <br>
 employers.txt: File storing employer usernames and hashed passwords.
 <br>
