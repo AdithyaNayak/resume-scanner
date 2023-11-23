@@ -19,8 +19,9 @@ class ApplicantResume:
         self.name = name
         self.education = education
         self.skills = [skill.strip() for skill in skills.split(',')]
-        self.experience = int(experience)
         self.domain = domain
+        self.experience = int(experience)
+        
 
 def read_resumes(file_path):
     resumes = []
@@ -45,7 +46,6 @@ def filter_resumes(resumes, filters):
         if key == 'experience':
             filtered_resumes = [resume for resume in filtered_resumes if getattr(resume, key) >= value]
         elif key == 'skills':
-            
             filtered_resumes = [resume for resume in filtered_resumes if value.lower() in [skill.lower() for skill in resume.skills]]
         else:
             filtered_resumes = [resume for resume in filtered_resumes if getattr(resume, key) == value]
@@ -59,9 +59,9 @@ def read_applicant_resumes(file_path):
             name = lines[i].strip().split(': ')[1]
             education = lines[i + 1].strip().split(': ')[1]
             skills = lines[i + 2].strip().split(': ')[1]
-            experience = lines[i + 3].strip().split(': ')[1]
             domain = lines[i + 4].strip().split(': ')[1]
-            resumes.append(ApplicantResume(name, education, skills, experience, domain))
+            experience = lines[i + 3].strip().split(': ')[1]
+            resumes.append(ApplicantResume(name, education, skills, domain, experience))
     return resumes
 
 def write_applicant_resume(name, education, skills, experience, domain):
@@ -70,8 +70,9 @@ def write_applicant_resume(name, education, skills, experience, domain):
         file.write(f"Name: {name}\n")
         file.write(f"Education: {education}\n")
         file.write(f"Skills: {skills}\n")
-        file.write(f"Experience: {experience}\n")
         file.write(f"Domain: {domain}\n")
+        file.write(f"Experience: {experience}\n")
+        
     return file_name
 
 def applicant_resume_page():
@@ -81,8 +82,9 @@ def applicant_resume_page():
     name = st.text_input("Full Name:")
     education = st.text_input("Education:")
     skills = st.text_input("Skills (comma-separated):")
-    experience = st.text_input("Experience (in years):")
     domain = st.text_input("Domain:")
+    experience = st.text_input("Experience (in years):")
+    
 
     if st.button("Submit Resume"):
         if name and education and skills and experience and domain:
@@ -91,8 +93,8 @@ def applicant_resume_page():
         else:
             st.warning("Please fill in all the fields.")
 
-def write_user(username, password, user_type):
 
+def write_user(username, password, user_type):
     if user_type == 'employer':
         user_file = USER_FILE_EMPLOYER
     elif user_type == 'applicant':
@@ -114,10 +116,15 @@ def check_user_credentials(username, password, user_type):
     with open(user_file, 'r') as file:
         lines = file.readlines()
         for line in lines:
-            stored_username, stored_password = line.strip().split(':')
-            if username == stored_username and hashlib.sha256(password.encode()).hexdigest() == stored_password:
-                return True
+            try:
+                stored_username, stored_password = line.strip().split(':')
+                if username == stored_username and hashlib.sha256(password.encode()).hexdigest() == stored_password:
+                    return True
+            except ValueError:
+                print(f"Error reading line: {line}")
+
     return False
+
 
 def login_page():
     st.title("Login Page")
@@ -148,18 +155,24 @@ def login_page():
         else:
             st.warning("Please provide a username and password for sign up.")
 
+
 def main():
     if 'user_logged_in' not in st.session_state:
         st.session_state.user_logged_in = False
 
     if not st.session_state.user_logged_in:
-        login_page()  # Show login page by default
+        login_page()  
         return
+
+    username = st.session_state.username  
+
+    st.title(f"Welcome, {username}!")
 
     if st.session_state.user_type == 'employer':
         st.title("Resume Filter")
+        st.subheader("Filter Resumes")
         
-        # Display the resume filter here
+        
         resume_files = get_resume_files()
 
         if not resume_files:
@@ -186,18 +199,18 @@ def main():
 
         st.subheader("Filtered Resumes:")
         for resume in filtered_resumes:
-            st.write(f"**Name:** {resume.name}\n"
-                     f"**Education:** {resume.education}\n"
-                     f"**Skills:** {', '.join(resume.skills)}\n"
-                     f"**Domain:** {resume.domain}\n"
-                     f"**Experience:** {resume.experience} years\n"
-                     f"---")
+            st.text(f"Name: {resume.name}")
+            st.text(f"Education: {resume.education}")
+            st.text(f"Skills: {', '.join(resume.skills)}")
+            st.text(f"Domain: {resume.domain}")
+            st.text(f"Experience: {resume.experience} years")
+            st.markdown("---")
+
+
+
 
     elif st.session_state.user_type == 'applicant':
         applicant_resume_page()
 
 if __name__ == "__main__":
     main()
-
-
-
